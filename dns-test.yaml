@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dns-test
+spec:
+  selector:
+    matchLabels:
+      app: dns-test
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: dns-test
+    spec:
+      containers:
+      - name: dns-test
+        image: adrianmo/dns-test:latest
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "while true; do sleep 30; done;" ]
+        ports:
+        - containerPort: 80
+      # dnsConfig:
+      #   options:
+      #     - name: single-request-reopen
